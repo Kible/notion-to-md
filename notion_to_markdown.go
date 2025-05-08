@@ -1,15 +1,15 @@
-package notiontomd
+package notionmd
 
 import (
 	"context"
 	"fmt"
 	"strings"
 
+	"github.com/Kible/notion-to-md/internal/notionadapter/config"
 	"github.com/Kible/notion-to-md/internal/notionadapter/gateway"
 	"github.com/Kible/notion-to-md/internal/notionadapter/markdown"
 	"github.com/Kible/notion-to-md/internal/notionadapter/models/requests"
 	"github.com/Kible/notion-to-md/internal/notionadapter/utils"
-	"github.com/Kible/notion-to-md/pkg/notiontomd/config"
 )
 
 type (
@@ -19,10 +19,10 @@ type (
 	}
 	method struct {
 		gateway *gateway.Module
-		config  *config.Config
+		config  *Config
 	}
 	Params struct {
-		Config *config.Config
+		Config *Config
 	}
 	MarkdownBlock struct {
 		Type     string           // Notion block type
@@ -32,8 +32,13 @@ type (
 	}
 )
 
-func New(p Params) (Method, error) {
-	gateway, err := gateway.NewModule(p.Config)
+func NewMethod(p Params) (Method, error) {
+	gateway, err := gateway.NewModule(&config.ConfigInternal{
+		Notion: config.NotionConfig{
+			Token:           p.Config.Notion.Token,
+			ParseChildPages: p.Config.Notion.ParseChildPages,
+		},
+	})
 	if err != nil {
 		return nil, err
 	}

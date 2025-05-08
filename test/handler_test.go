@@ -5,14 +5,13 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Kible/notion-to-md/pkg/notiontomd"
-	"github.com/Kible/notion-to-md/pkg/notiontomd/config"
+	notionmd "github.com/Kible/notion-to-md"
 )
 
 func TestPageToMarkdown(t *testing.T) {
-	md, err := notiontomd.New(notiontomd.Params{
-		Config: &config.Config{
-			Notion: config.NotionConfig{
+	md, err := notionmd.NewMethod(notionmd.Params{
+		Config: &notionmd.Config{
+			Notion: notionmd.NotionConfig{
 				Token: "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",
 			},
 		},
