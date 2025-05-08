@@ -32,7 +32,7 @@ func main() {
 	// Initialize the converter with your Notion API token
 	md, err := notiontomd.New(notiontomd.Params{
 		Config: &notiontomd.Config{
-			Notion: notiontomd.NotionConfig{
+			Notion: &notiontomd.NotionConfig{
 				Token: "your-notion-api-token",
 				ParseChildPages: true, // Set to true if you want to parse child pages
 			},
