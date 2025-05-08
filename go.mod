@@ -1,3 +1,5 @@
-module github.com/Kible/kible-backend
+module github.com/Kible/notion-to-md
 
-go 1.24.0
+go 1.24.1
+
+require github.com/jomei/notionapi v1.13.3
