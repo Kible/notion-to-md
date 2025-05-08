@@ -25,15 +25,14 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Kible/notion-to-md/pkg/notiontomd"
-	"github.com/Kible/notion-to-md/pkg/notiontomd/config"
+	notionmd "github.com/Kible/notion-to-md"
 )
 
 func main() {
 	// Initialize the converter with your Notion API token
-	md, err := notiontomd.New(notiontomd.Params{
-		Config: &config.Config{
-			Notion: config.NotionConfig{
+	md, err := notionmd.New(notionmd.Params{
+		Config: &notionmd.Config{
+			Notion: notionmd.NotionConfig{
 				Token: "your-notion-api-token",
 				ParseChildPages: true, // Set to true if you want to parse child pages
 			},
