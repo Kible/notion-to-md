@@ -1,4 +1,4 @@
-package notionmd
+package notiontomd
 
 import (
 	"context"

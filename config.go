@@ -1,4 +1,4 @@
-package notionmd
+package notiontomd
 
 type Config struct {
 	Notion NotionConfig `yaml:"notion"`
