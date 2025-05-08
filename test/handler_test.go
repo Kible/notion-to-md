@@ -11,7 +11,7 @@ import (
 func TestPageToMarkdown(t *testing.T) {
 	md, err := notiontomd.NewMethod(notiontomd.Params{
 		Config: &notiontomd.Config{
-			Notion: notiontomd.NotionConfig{
+			Notion: &notiontomd.NotionConfig{
 				Token: "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",
 			},
 		},

@@ -1,7 +1,7 @@
 package notiontomd
 
 type Config struct {
-	Notion NotionConfig `yaml:"notion"`
+	Notion *NotionConfig `yaml:"notion"`
 }
 
 type NotionConfig struct {
@@ -11,6 +11,6 @@ type NotionConfig struct {
 
 func NewConfig(notion *NotionConfig) (*Config, error) {
 	return &Config{
-		Notion: *notion,
+		Notion: notion,
 	}, nil
 }
