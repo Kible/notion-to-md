@@ -7,6 +7,7 @@ type ConfigInternal struct {
 type NotionConfig struct {
 	Token           string `yaml:"token"`
 	ParseChildPages bool   `yaml:"parse_child_pages"`
+	ScrapeURLTitles bool   `yaml:"scrape_url_titles"`
 }
 
 func NewConfigInternal(notion *NotionConfig) (*ConfigInternal, error) {

@@ -14,8 +14,22 @@ import (
 
 type (
 	Method interface {
+		// PageToMarkdownFull converts a Notion page to Markdown blocks using the full page content (default: 100 blocks)
+		// Parameters:
+		//   - ctx: context.Context for the API request
+		//   - pageID: string ID of the Notion page to convert
 		PageToMarkdownFull(context.Context, string) ([]*MarkdownBlock, error)
+
+		// PageToMarkdown converts a Notion page to Markdown blocks with optional pagination
+		// Parameters:
+		//   - ctx: context.Context for the API request
+		//   - pageID: string ID of the Notion page to convert
+		//   - pageSize: *int optional limit on the number of blocks to retrieve (nil for default)
 		PageToMarkdown(context.Context, string, *int) ([]*MarkdownBlock, error)
+
+		// ToMarkdownString converts markdown blocks to a single markdown string
+		// Parameters:
+		//   - blocks: []*MarkdownBlock slice of markdown blocks to convert
 		ToMarkdownString(blocks []*MarkdownBlock) (string, error)
 	}
 	method struct {
@@ -32,6 +46,7 @@ func New(p Params) (Method, error) {
 		Notion: config.NotionConfig{
 			Token:           p.Config.Notion.Token,
 			ParseChildPages: p.Config.Notion.ParseChildPages,
+			ScrapeURLTitles: p.Config.Notion.ScrapeURLTitles,
 		},
 	})
 	if err != nil {
@@ -301,7 +316,15 @@ func (m *method) blockToMarkdown(ctx context.Context, block any) (string, error)
 		}
 
 		if url != "" {
-			return markdown.Link(blockType, url), nil
+			title := blockType
+
+			if m.config.Notion.ScrapeURLTitles {
+				if scrapedTitle, err := utils.GetURLTitle(url); err == nil && scrapedTitle != "" {
+					title = scrapedTitle
+				}
+			}
+
+			return markdown.Link(title, url), nil
 		}
 	case "child_page":
 		if !m.config.Notion.ParseChildPages {

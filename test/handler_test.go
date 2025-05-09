@@ -17,7 +17,8 @@ func TestPageToMarkdown(t *testing.T) {
 	md, err := notiontomd.New(notiontomd.Params{
 		Config: &notiontomd.Config{
 			Notion: &notiontomd.NotionConfig{
-				Token: os.Getenv("NOTION_API_KEY"),
+				Token:           os.Getenv("NOTION_API_KEY"),
+				ScrapeURLTitles: true,
 			},
 		},
 	})
