@@ -38,13 +38,12 @@ func TestPageToMarkdown(t *testing.T) {
 	}
 	defer file.Close()
 
-	// Write each block to the markdown file
-	for _, block := range blocks {
-		_, err := file.WriteString(block.Parent + "\n")
-		if err != nil {
-			t.Fatalf("Failed to write to output file: %v", err)
-		}
+	mdString, err := md.ToMarkdownString(blocks)
+	if err != nil {
+		t.Fatalf("Failed to convert blocks to markdown string: %v", err)
 	}
+
+	file.WriteString(mdString)
 
 	outputContent, err := os.ReadFile("./data/output.md")
 	if err != nil {

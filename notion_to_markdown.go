@@ -16,6 +16,7 @@ type (
 	Method interface {
 		PageToMarkdownFull(context.Context, string) ([]*MarkdownBlock, error)
 		PageToMarkdown(context.Context, string, *int) ([]*MarkdownBlock, error)
+		ToMarkdownString(blocks []*MarkdownBlock) (string, error)
 	}
 	method struct {
 		gateway *gateway.Module
@@ -23,12 +24,6 @@ type (
 	}
 	Params struct {
 		Config *Config
-	}
-	MarkdownBlock struct {
-		Type     string           // Notion block type
-		BlockID  string           // Notion block ID
-		Parent   string           // Markdown content for this block
-		Children []*MarkdownBlock // Child blocks (if any)
 	}
 )
 
@@ -63,6 +58,25 @@ func (m *method) PageToMarkdown(ctx context.Context, pageID string, pageSize *in
 	}
 
 	return m.blockListToMarkdown(ctx, blocks.Results, nil, nil)
+}
+
+func (m *method) ToMarkdownString(blocks []*MarkdownBlock) (string, error) {
+	if blocks == nil {
+		return "", fmt.Errorf("nil markdown blocks")
+	}
+
+	var sb strings.Builder
+	for _, block := range blocks {
+		blockMd, err := block.ToMarkdown()
+		if err != nil {
+			return "", fmt.Errorf("failed to convert block: %w", err)
+		}
+		_, err = sb.WriteString("\n\n" + blockMd)
+		if err != nil {
+			return "", fmt.Errorf("failed to write block content: %w", err)
+		}
+	}
+	return sb.String(), nil
 }
 
 func (m *method) blockListToMarkdown(ctx context.Context, blocks []any, totalPages *int, mdBlocks []*MarkdownBlock) ([]*MarkdownBlock, error) {
