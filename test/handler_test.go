@@ -9,7 +9,7 @@ import (
 )
 
 func TestPageToMarkdown(t *testing.T) {
-	md, err := notiontomd.NewMethod(notiontomd.Params{
+	md, err := notiontomd.New(notiontomd.Params{
 		Config: &notiontomd.Config{
 			Notion: &notiontomd.NotionConfig{
 				Token: "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",

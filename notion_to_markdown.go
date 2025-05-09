@@ -32,7 +32,7 @@ type (
 	}
 )
 
-func NewMethod(p Params) (Method, error) {
+func New(p Params) (Method, error) {
 	gateway, err := gateway.NewModule(&config.ConfigInternal{
 		Notion: config.NotionConfig{
 			Token:           p.Config.Notion.Token,
