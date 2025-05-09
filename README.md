@@ -49,10 +49,8 @@ func main() {
 		log.Fatalf("Failed to get blocks: %v", err)
 	}
 
-	// Process the resulting Markdown blocks
-	for _, block := range blocks {
-		fmt.Println(block.Parent) // The Markdown content
-	}
+	mdString, err := md.ToMarkdownString(blocks)
+	fmt.Println(mdString)
 }
 ```
 
