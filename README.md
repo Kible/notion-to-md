@@ -34,6 +34,7 @@ func main() {
 		Config: &notiontomd.Config{
 			Notion: &notiontomd.NotionConfig{
 				Token: "your-notion-api-token"
+				ScrapeURLTitles: true,
 			},
 		},
 	})
@@ -42,8 +43,8 @@ func main() {
 		log.Fatalf("Failed to create handler: %v", err)
 	}
 
-	// Convert a Notion page to Markdown
-	// Use the page ID from your Notion page URL
+	// Convert a Notion page to Markdown blocks
+	// Use the Notion page ID
 	blocks, err := md.PageToMarkdownFull(context.Background(), "your-page-id")
 	if err != nil {
 		log.Fatalf("Failed to get blocks: %v", err)
