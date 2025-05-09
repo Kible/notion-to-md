@@ -3,16 +3,24 @@ package test
 import (
 	"context"
 	"fmt"
+	"os"
 	"testing"
 
 	notiontomd "github.com/Kible/notion-to-md"
+	"github.com/joho/godotenv"
 )
 
 func TestPageToMarkdown(t *testing.T) {
+	if err := godotenv.Load(); err != nil {
+		if !os.IsNotExist(err) {
+			t.Fatalf("Failed to load .env file: %v", err)
+		}
+	}
+
 	md, err := notiontomd.New(notiontomd.Params{
 		Config: &notiontomd.Config{
 			Notion: &notiontomd.NotionConfig{
-				Token: "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",
+				Token: os.Getenv("NOTION_API_KEY"),
 			},
 		},
 	})
