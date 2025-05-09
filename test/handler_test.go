@@ -2,7 +2,6 @@ package test
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"testing"
 
@@ -12,9 +11,7 @@ import (
 
 func TestPageToMarkdown(t *testing.T) {
 	if err := godotenv.Load(); err != nil {
-		if !os.IsNotExist(err) {
-			t.Fatalf("Failed to load .env file: %v", err)
-		}
+		t.Fatalf("Failed to load .env file: %v", err)
 	}
 
 	md, err := notiontomd.New(notiontomd.Params{
@@ -34,7 +31,35 @@ func TestPageToMarkdown(t *testing.T) {
 		t.Fatalf("Failed to get blocks: %v", err)
 	}
 
+	// Create a markdown file to write the output
+	file, err := os.Create("./data/output.md")
+	if err != nil {
+		t.Fatalf("Failed to create output file: %v", err)
+	}
+	defer file.Close()
+
+	// Write each block to the markdown file
 	for _, block := range blocks {
-		fmt.Println(block.Parent)
+		_, err := file.WriteString(block.Parent + "\n")
+		if err != nil {
+			t.Fatalf("Failed to write to output file: %v", err)
+		}
+	}
+
+	outputContent, err := os.ReadFile("./data/output.md")
+	if err != nil {
+		t.Fatalf("Failed to read output.md: %v", err)
+	}
+
+	sourceOfTruthContent, err := os.ReadFile("./data/north-dakota-state-resources-export.md")
+	if err != nil {
+		t.Fatalf("Failed to read north-dakota-state-resources-export.md: %v", err)
+	}
+
+	// Compare the content
+	if string(outputContent) != string(sourceOfTruthContent) {
+		t.Errorf("Generated output does not match the actual value")
+	} else {
+		t.Logf("Generated output matches the actual value")
 	}
 }
