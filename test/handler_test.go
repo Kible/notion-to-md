@@ -27,7 +27,7 @@ func TestPageToMarkdown(t *testing.T) {
 		t.Fatalf("Failed to create handler: %v", err)
 	}
 
-	blocks, err := md.PageToMarkdownFull(context.Background(), "1ed57d75-c00f-808f-8c03-e803f5cc0b51")
+	blocks, err := md.PageToMarkdownFull(context.Background(), "1c757d75-c00f-80a2-960b-d63f54a9f2e4")
 	if err != nil {
 		t.Fatalf("Failed to get blocks: %v", err)
 	}
