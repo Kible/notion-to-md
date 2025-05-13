@@ -7,6 +7,11 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: write
+  packages: write
+  pull-requests: read
+
 jobs:
   test:
     name: Run Tests
