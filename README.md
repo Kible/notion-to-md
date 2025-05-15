@@ -5,7 +5,7 @@ A Go library for converting Notion pages and blocks to Markdown format.
 ## Installation
 
 ```bash
-go get github.com/Kible/notion-to-md
+go get github.com/UnderstoodCare/notion-to-md
 ```
 
 ## Requirements
@@ -25,7 +25,7 @@ import (
 	"fmt"
 	"log"
 
-	notiontomd "github.com/Kible/notion-to-md"
+	notiontomd "github.com/UnderstoodCare/notion-to-md"
 )
 
 func main() {
